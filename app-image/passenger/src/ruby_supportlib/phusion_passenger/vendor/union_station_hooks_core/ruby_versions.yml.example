@@ -1,0 +1,16 @@
+# This configuration file tells the test suite which Ruby interpreters to
+# test against. Below is an example utilizing RVM.
+#
+# If you want test coverage reporting via simplecov to work, then this list
+# must contain the main Ruby interpreter that you are using, and the entry
+# for that Ruby interpreter must execute Ruby through 'bundle exec'. In the
+# example below, this is the case for Ruby 1.9.3.
+
+- name: Ruby 1.8.7
+  command: rvm-exec ruby-1.8.7-p352 ruby
+- name: Ruby 1.9.3
+  command: rvm-exec ruby-1.9.3-p547 bundle exec ruby
+- name: Ruby 2.2.1
+  command: rvm-exec ruby-2.2.1 ruby
+- name: JRuby 9.0.4.0
+  command: rvm-exec jruby-9.0.4.0 ruby --dev

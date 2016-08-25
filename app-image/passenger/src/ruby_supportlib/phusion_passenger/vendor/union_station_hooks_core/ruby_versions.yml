@@ -1,0 +1,4 @@
+#- name: Ruby 1.9.3
+#  command: rvm-exec ruby-1.9.3-p547 bundle exec ruby
+- name: Ruby 2.2.3
+  command: rvm-exec ruby-2.2.3 ruby
