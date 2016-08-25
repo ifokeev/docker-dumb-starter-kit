@@ -1,6 +1,6 @@
 module D
   CWD = File.dirname(__FILE__)
-  
+
   class Build < Thor
     desc "app", "Build an app image from app-image folder"
     def app
@@ -11,29 +11,29 @@ module D
   class Run < Thor
     desc "ui", "Run ui-for-docker container (docker inspect in browser)"
     def ui
-      system %{ 
-        docker run -d --name ui -p 9000:9000 --privileged -v /var/run/docker.sock:/var/run/docker.sock uifd/ui-for-docker 
+      system %{
+        docker run -d --name ui -p 9000:9000 --privileged -v /var/run/docker.sock:/var/run/docker.sock uifd/ui-for-docker
       }
     end
 
     desc "redis", "Run redis container"
     def redis
-      system %{ 
-        docker run -d --name redis -v redis-data:/data redis 
+      system %{
+        docker run -d --name redis -v redis-data:/data redis
       }
     end
 
     desc "mongo", "Run mongodb container"
     def mongo
-      system %{ 
-        docker run -d --name mongo -v mongo-data:/data/db -v mongo-configdb:/data/configdb mongo 
+      system %{
+        docker run -d --name mongo -v mongo-data:/data/db -v mongo-configdb:/data/configdb mongo
       }
     end
 
     desc "postgres", "Run PostgreSQL container"
     def postgres
-      system %{ 
-        docker run -d --name postgres -v postgres-data:/var/lib/postgresql/data postgres 
+      system %{
+        docker run -d --name postgres -v postgres-data:/var/lib/postgresql/data postgres
       }
     end
 
@@ -45,10 +45,10 @@ module D
       name = options[:name]
 
       system %{
-        docker run -d --name #{name}  
-        -v #{CWD}/#{name}:/usr/src/app  
-        #{links.join(' ')} 
-        app-image 
+        docker run -d --name #{name}
+        -v #{CWD}/#{name}:/usr/src/app
+      #{links.join(' ')}
+        app-image
       }.gsub(/\s+/, " ").strip
     end
 
@@ -59,10 +59,10 @@ module D
       links = options[:linked].collect { |v| "--link " + v }
       name = options[:name]
 
-      system %{ 
+      system %{
         docker run -d --name #{name}
         -v #{CWD}/#{name}:/usr/src/app
-        #{links.join(' ')} 
+      #{links.join(' ')}
         app-image
       }.gsub(/\s+/, " ").strip
     end
@@ -74,13 +74,13 @@ module D
       links = options[:linked].collect { |v| "--link " + v }
       name = options[:name]
 
-      system %{ 
-        docker run -d --name #{name} 
-        -v #{CWD}/nginx/nginx.conf:/etc/nginx/nginx.conf:ro 
+      system %{
+        docker run -d --name #{name}
+        -v #{CWD}/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
         -v #{CWD}/nginx/usr:/usr/src/nginx
         -p 80:8080
-        -p 443:8443 
-        #{links.join(' ')} 
+        -p 443:8443
+      #{links.join(' ')}
         nginx
       }.gsub(/\s+/, " ").strip
     end
@@ -98,7 +98,7 @@ module D
   class Exec < Thor
     desc "sh CONTAINER", "system shell on container"
     def sh(container_id)
-      system %{ 
+      system %{
         docker exec -it #{container_id} sh
       }
     end
@@ -108,9 +108,9 @@ module D
     desc "containers", "Stop and remove all created containers"
     def containers
       [:stop, :rm].each do |command|
-        ['mongo', 'redis', 'postgres', 'defaul-node-app', 'default-ruby-app', 'nginx'].each do |container|
-          system %{ 
-            docker #{command} #{container} 
+        ['mongo', 'redis', 'postgres', 'default-node-app', 'default-ruby-app', 'nginx'].each do |container|
+          system %{
+            docker #{command} #{container}
           }
         end
       end
