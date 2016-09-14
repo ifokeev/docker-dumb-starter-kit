@@ -17,7 +17,7 @@ RUN apk add --update --no-cache $PACKAGES
 RUN apk add --update --no-cache $BUILD_PACKAGES
 
 ########################################### gems requires native compilation
-RUN gem install nokogiri
+RUN gem install nokogiri 
 RUN gem install pg
 
 ########################################## cleanup
@@ -35,4 +35,4 @@ RUN gem install rack
 #RUN apk add --update --no-cache ruby-rack
 COPY config.ru /usr/src/app/
 
-ENTRYPOINT ["passenger", "start", "--no-install-runtime", "--no-compile-runtime"]
+CMD ["passenger", "start", "--no-install-runtime", "--no-compile-runtime"]
